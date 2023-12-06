@@ -1,9 +1,9 @@
 #! /bin/bash
-# Assure that the script is only called from the splc23-explanations folder
+# Assure that the script is only called from the VaMoS24-explanations folder
 current_dir=$(pwd)
-expected_path="/replication/splc23-explanations"
+expected_path="/replication/VaMoS24-explanations"
 if [[ ! $current_dir =~ $expected_path ]]; then
-  echo "error: the script must be run from inside the splc23-explanations directory, i.e., DiffDetective$expected_path"
+  echo "error: the script must be run from inside the VaMoS24-explanations directory, i.e., DiffDetective$expected_path"
   exit 1
 fi
 
@@ -12,4 +12,4 @@ fi
 # We have to do this to get access to 'src', 'docker', 'local-maven-repo', etc.
 cd ../..
 
-docker build -t diff-detective -f replication/splc23-explanations/Dockerfile .
+docker build -t diff-detective -f replication/VaMoS24-explanations/Dockerfile .
