@@ -19,7 +19,7 @@ You can find detailed information on how to install Docker and build the contain
 ### 1.1 Build the Docker container
 Start the docker deamon.
 Clone this repository.
-Open a terminal and navigate to the root directory of this repository.
+Open a terminal and navigate to the [replication/VaMoS24-explanations](replication/VaMoS24-explanations) directory of this repository.
 To build the Docker container you can run the `build` script corresponding to your operating system.
 #### Windows: 
 `.\build.bat`
