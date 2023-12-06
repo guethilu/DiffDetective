@@ -47,7 +47,17 @@ To execute the replication you can run the `execute` script corresponding to you
 You might see warnings or errors reported from SLF4J like `Failed to load class "org.slf4j.impl.StaticLoggerBinder"` which you can safely ignore.
 Further troubleshooting advice can be found at the bottom of the [Install](INSTALL.md) file.
 
-### 1.3 View the results in the [results][resultsdir] directory
+### 1.3 Start the verification
+As the replication potentially runs for a long time, verifying that the Docker image was built and runs correctly can be done on a smaller dataset.
+This can be done via running the `execute` script with `verification` as its first argument:
+
+#### Windows:
+`.\execute.bat verification`
+#### Linux/Mac (bash):
+`./execute.sh verification`
+
+
+### 1.4 View the results in the [results][resultsdir] directory
 All raw results are stored in the [results][resultsdir] directory.
 The aggregated results can be found in the following files.
 (Note that the links to the results only have a target _after_ running the replication or verification.)
