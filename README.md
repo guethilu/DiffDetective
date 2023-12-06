@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10276785.svg)](https://doi.org/10.5281/zenodo.10276785)
+
 # Explaining Edits to Variability Annotations in Evolving Software Product Lines
 
 This is the replication package for our paper _Explaining Edits to Variability Annotations in Evolving Software Product Lines_.
