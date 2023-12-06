@@ -2,7 +2,7 @@
 
 # Explaining Edits to Variability Annotations in Evolving Software Product Lines
 
-This is the replication package for our paper _Explaining Edits to Variability Annotations in Evolving Software Product Lines_.
+This is the replication package for our paper _Explaining Edits to Variability Annotations in Evolving Software Product Lines_ published at VaMoS 2024.
 
 This replication package consists of two parts:
 
