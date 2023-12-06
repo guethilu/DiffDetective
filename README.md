@@ -10,7 +10,7 @@ This replication package consists of two parts:
 2. **Dataset Overview**: We provide an overview of the 44 inspected datasets with updated links to their repositories in the file [docs/datasets.md][dataset].
 
 ## 1. DiffDetective
-DiffDetective is a java library and command-line tool to parse and classify edits to variability in git histories of preprocessor-based software product lines by creating [variation diffs][difftree_class] and operating on them.
+DiffDetective is a java library and command-line tool to parse and classify edits to variability in git histories of preprocessor-based software product lines by creating [variation diffs][src/main/java/org/variantsync/diffdetective/diff/difftree/DiffTree.java] and operating on them.
 
 We offer a [Docker](https://www.docker.com/) setup to easily __replicate__ the validation performed in our paper. 
 In the following, we provide a quickstart guide for running the replication.
