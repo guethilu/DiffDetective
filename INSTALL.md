@@ -32,11 +32,11 @@ cd DiffDetective
 ```
 and checkout the branch of the replication:
 ```shell
-git checkout splc23-explanations
+git checkout vamos24_explanations
 ```
 Finally, navigate to the replication directory
 ```shell
-cd replication/splc23-explanations
+cd replication/VaMoS24-explanations
 ```
 
 ### 3. Build the Docker Container
