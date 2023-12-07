@@ -3,10 +3,11 @@
 
 This is the replication package for our paper _Explaining Edits to Variability Annotations in Evolving Software Product Lines_ published at VaMoS 2024.
 
-This replication package consists of two parts:
+This replication package consists of three parts:
 
 1. **DiffDetective**: For our validation, we modified [_DiffDetective_](https://github.com/VariantSync/DiffDetective), a java library and command-line tool to classify edits to variability in git histories of preprocessor-based software product lines, to extend the variation diffs constructed by _DiffDetective_ to edge-typed variation diffs we introduce in the paper.
 2. **Dataset Overview**: We provide an overview of the 44 inspected datasets with updated links to their repositories in the file [docs/datasets.md][dataset].
+3. **Appendix**: The appendix for the paper "Explaining Edits to Variability Annotations in Evolving Software Product Lines"
 
 ## 1. DiffDetective
 DiffDetective is a java library and command-line tool to parse and classify edits to variability in git histories of preprocessor-based software product lines by creating [variation diffs](src/main/java/org/variantsync/diffdetective/diff/difftree/DiffTree.java) and operating on them.
