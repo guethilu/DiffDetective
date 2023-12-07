@@ -38,10 +38,8 @@ public class DiffNode {
      */
     public final NodeType nodeType;
 
-    private boolean isMultilineMacro = false;
-
-    private final DiffLineNumber from = DiffLineNumber.Invalid();
-    private final DiffLineNumber to = DiffLineNumber.Invalid();
+    private DiffLineNumber from = DiffLineNumber.Invalid();
+    private DiffLineNumber to = DiffLineNumber.Invalid();
 
     private Node featureMapping;
     private List<String> lines;
@@ -100,8 +98,8 @@ public class DiffNode {
 
         this.diffType = diffType;
         this.nodeType = nodeType;
-        this.from.set(fromLines);
-        this.to.set(toLines);
+        this.from = fromLines;
+        this.to = toLines;
         this.featureMapping = featureMapping;
         this.lines = lines;
     }
@@ -620,12 +618,20 @@ public class DiffNode {
         return from;
     }
 
+    public void setFromLine(DiffLineNumber from) {
+        this.from = from.as(diffType);
+    }
+
     /**
      * Returns the end line number of this node's corresponding text block.
      * The line number is exclusive (i.e., it points 1 behind the last included line).
      */
     public DiffLineNumber getToLine() {
         return to;
+    }
+
+    public void setToLine(DiffLineNumber to) {
+        this.to = to.as(diffType);
     }
 
     /**
@@ -675,21 +681,6 @@ public class DiffNode {
      */
     public List<DiffNode> getAllChildren() {
         return getChildOrder();
-    }
-
-    /**
-     * Determines if this node represents a multi-line macro.
-     * @param isMultilineMacro True iff this node represents a multi-line macro.
-     */
-    public void setIsMultilineMacro(boolean isMultilineMacro) {
-        this.isMultilineMacro = isMultilineMacro;
-    }
-
-    /**
-     * Returns true if this node represents a multi-line macro.
-     */
-    public boolean isMultilineMacro() {
-        return isMultilineMacro;
     }
 
     /**
@@ -986,7 +977,7 @@ public class DiffNode {
      */
     public int getID() {
         // Add one to ensure invalid (negative) line numbers don't cause issues.
-        int lineNumber = 1 + from.inDiff;
+        int lineNumber = 1 + from.inDiff();
         Assert.assertTrue((lineNumber << 2*ID_OFFSET) >> 2*ID_OFFSET == lineNumber);
 
         int id;
@@ -1013,12 +1004,13 @@ public class DiffNode {
         final int diffTypeOrdinal = (id >> ID_OFFSET) & lowestBitsMask;
         final int fromInDiff      = (id >> (2*ID_OFFSET)) - 1;
 
+        var nodeType = NodeType.values()[nodeTypeOrdinal];
         return new DiffNode(
                 DiffType.values()[diffTypeOrdinal],
-                NodeType.values()[nodeTypeOrdinal],
+                nodeType,
                 new DiffLineNumber(fromInDiff, DiffLineNumber.InvalidLineNumber, DiffLineNumber.InvalidLineNumber),
                 DiffLineNumber.Invalid(),
-                null,
+                nodeType.isConditionalAnnotation() ? FixTrueFalse.True : null,
                 label
         );
     }
@@ -1053,13 +1045,7 @@ public class DiffNode {
         if (beforeParent != null && afterParent != null) {
             Assert.assertTrue(isNon());
         }
-    }
 
-    /**
-     * Checks that Else and Elif nodes have an If or Elif as parent.
-     * @throws AssertionError when an inconsistency is detected.
-     */
-    public void assertSemanticConsistency() {
         // Else and Elif nodes have an If or Elif as parent.
         if (this.isElse() || this.isElif()) {
             if (beforeParent != null) {
@@ -1068,6 +1054,13 @@ public class DiffNode {
             if (afterParent != null) {
                 Assert.assertTrue(afterParent.isIf() || afterParent.isElif(), "After parent " + afterParent + " of " + this + " is neither IF nor ELIF!");
             }
+        }
+
+        // Only if and elif nodes have a formula
+        if (this.isIf() || this.isElif()) {
+            Assert.assertTrue(this.getDirectFeatureMapping() != null, "If or elif without feature mapping!");
+        } else {
+            Assert.assertTrue(this.getDirectFeatureMapping() == null, "Node with type " + nodeType + " has a non null feature mapping");
         }
     }
 
@@ -1123,12 +1116,12 @@ public class DiffNode {
     public String toString() {
         String s;
         if (isArtifact()) {
-            s = String.format("%s_%s from %d to %d", diffType, nodeType, from.inDiff, to.inDiff);
+            s = String.format("%s_%s from %d to %d", diffType, nodeType, from.inDiff(), to.inDiff());
         } else if (isRoot()) {
             s = "ROOT";
         } else {
             s = String.format("%s_%s from %d to %d with \"%s\"", diffType, nodeType,
-                    from.inDiff, to.inDiff, featureMapping);
+                    from.inDiff(), to.inDiff(), featureMapping);
         }
         return s;
     }
@@ -1138,7 +1131,7 @@ public class DiffNode {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DiffNode diffNode = (DiffNode) o;
-        return isMultilineMacro == diffNode.isMultilineMacro && diffType == diffNode.diffType && nodeType == diffNode.nodeType && from.equals(diffNode.from) && to.equals(diffNode.to) && Objects.equals(featureMapping, diffNode.featureMapping) && lines.equals(diffNode.lines);
+        return diffType == diffNode.diffType && nodeType == diffNode.nodeType && from.equals(diffNode.from) && to.equals(diffNode.to) && Objects.equals(featureMapping, diffNode.featureMapping) && lines.equals(diffNode.lines);
     }
 
     /**
@@ -1151,6 +1144,6 @@ public class DiffNode {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(diffType, nodeType, isMultilineMacro, from, to, featureMapping, lines);
+        return Objects.hash(diffType, nodeType, from, to, featureMapping, lines);
     }
 }
