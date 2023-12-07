@@ -75,7 +75,7 @@ The results of the verification will be stored in the [results](../../results) d
 
 ### Expected Output of the Verification
 
-The [results](../../results) directory contains a folder relationshipEdges. This folder contains the statistics for every repository, i.e., total run time, run times per commit, fastest/slowest commit, and stats about the constucted edge-typed variation diffs as well as their linegraph-format representation.
+The [results](../../results) directory contains a folder relationshipEdges. This folder contains the statistics for every repository, i.e., total run time, run times per commit, fastest/slowest commit, and statistics about the constructed edge-typed variation diffs, and all analysed variation diffs in linegraph format.
 
 ### (Optional) Running DiffDetective on Custom Datasets
 You can also run DiffDetective on other datasets by providing the path to the dataset file as first argument to the execution script:
